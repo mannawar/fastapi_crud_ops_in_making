@@ -45,13 +45,13 @@ async def add_audio_data(audio: AudioBook = Body(...)):
 #Delete
 @router.delete("AudioFileType/{id}", response_description="Audio data deleted from the database")
 async def delete_audio_data(id: int):
-    deleted_student = await delete_audio(id)
-    if deleted_student:
+    deleted_audio = await delete_audio(id)
+    if deleted_audio:
         return ResponseModel(
             "Audio with ID: {} removed".format(id), "Audio deleted successfully"
         )
     return ErrorResponseModel(
-        "An error occurred", 404, "Student with id {0} doesn't exist".format(id)
+        "An error occurred", 404, "audio with id {0} doesn't exist".format(id)
     )
 
 #Update
@@ -73,7 +73,7 @@ async def update_audio_data(id: int, req: AudioFileType = Body(...)):
 #Get
 @router.get("/", response_description="Audios retrieved")
 async def get_audios():
-    audios = await retrieve_students()
+    audios = await retrieve_audios()
     if audios:
         return ResponseModel(audios, "Audios retrieved successfully")
     return ResponseModel(audios, "Empty list returned")
@@ -83,6 +83,6 @@ async def get_audios():
 async def get_audio_data(id):
     audio = await retrieve_audio(id)
     if audio:
-        return ResponseModel(student, "audio for particular file types data retrieved")
+        return ResponseModel(audio, "audio for particular file types data retrieved")
     return ErrorResponseModel("An error occurred.", 404, "Audio data doesn't exist.")
     
