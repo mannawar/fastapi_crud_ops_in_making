@@ -2,8 +2,22 @@ from pydantic import BaseModel, Field, BaseSettings
 from uuid import uuid4
 from pymongo import MongoClient
 from bson import ObjectId
-from typing import Optional, List, Annotated
+from typing import Optional, List
+from typing_extensions import Annotated
 from datetime import datetime, date
+import enum
+
+class AudioType(str, enum.Enum):
+  song = "Song"
+  podcast = "Podcast"
+  audiobook = "Audiobook"
+
+class Audio(BaseModel):
+    id: Annotated[str, Field(default_factory=lambda: uuid4().hex)]
+    name: str = Field(..., exclusiveMaximum=10)
+    duration: int = Field(...)
+    uploaded_time: datetime = Field(...)
+    type: AudioType = Field(...)
 
 
 class Song(BaseModel):
@@ -51,3 +65,5 @@ def ResponseModel(data, message):
 
 def ErrorResponseModel(error, code, message):
     return {"error": error, "code": code, "message": message}
+
+

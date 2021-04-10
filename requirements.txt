@@ -1,3 +1,8 @@
 fastapi==0.63.0
 uvicorn==0.13.4
 motor==2.2.0
+sqlalchemy
+passlib
+bcrypt
+python-jose
+python-multipart
